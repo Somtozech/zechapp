@@ -1,26 +1,25 @@
 import React, { Component } from "react";
 import { CssBaseline } from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
 import Loadable from "react-loadable";
 import "./font-awesome/css/fontawesome-all.min.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 
-const styles = {
-  root: {
-    display: "flex",
-    height: "100vh",
-    width: "100%"
-  }
-};
-
-const Sidebar = Loadable({
-  loader: () => import("./components/Sidebar"),
+const MainApp = Loadable({
+  loader: () => import("./components/MainApp"),
   loading() {
     return <div>Loading</div>;
   }
 });
 
-const ChatBody = Loadable({
-  loader: () => import("./components/ChatBody"),
+const Login = Loadable({
+  loader: () => import("./components/Login"),
   loading() {
     return <div>Loading</div>;
   }
@@ -32,14 +31,23 @@ class App extends Component {
     return (
       <React.Fragment>
         <CssBaseline>
-          <div className={classes.root}>
-            <Sidebar />
-            <ChatBody />
-          </div>
+          <Provider store={store}>
+            <Router>
+              <Switch>
+                <Route exact path="/" render={() => <Redirect to="/chat" />} />
+                <Route path="/chat" component={MainApp} />
+                <Route path="/login" component={Login} />
+              </Switch>
+            </Router>
+          </Provider>
         </CssBaseline>
       </React.Fragment>
     );
   }
 }
 
-export default withStyles(styles)(App);
+if (module.hot) {
+  module.hot.accept();
+}
+
+export default App;
