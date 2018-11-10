@@ -27,7 +27,6 @@ const Login = Loadable({
 
 class App extends Component {
   render() {
-    const { classes } = this.props;
     return (
       <React.Fragment>
         <CssBaseline>

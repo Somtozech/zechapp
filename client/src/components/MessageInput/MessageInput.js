@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 
 const styles = {
   root: {
@@ -37,7 +37,7 @@ const MessageInput = props => {
     <div className={classes.root}>
       <textarea
         rows="1"
-        multiline
+        multiline="true"
         className={classes.textField}
         placeholder="Type message here"
       />
@@ -48,8 +48,8 @@ const MessageInput = props => {
   );
 };
 
-MessageInput.PropTypes = {
-  classes: PropTypes.object.isRequired
+MessageInput.propTypes = {
+  classes: propTypes.object.isRequired
 };
 
 export default withStyles(styles)(MessageInput);

@@ -1,5 +1,6 @@
 const connectedUsers = new Map();
-const { createUser } = require("./helper");
+const { createUser, createChat } = require("./helper");
+const chats = [createChat()];
 
 function checkUserAlreadyExists(user, chatList) {
   return chatList.has(user);
@@ -15,6 +16,7 @@ function removeUser(user, chatList) {
 
 module.exports = socket => {
   return (function(socket) {
+    //handle user verification
     function handleVerification(user, cb) {
       if (checkUserAlreadyExists(user, connectedUsers)) {
         cb({ isUser: true, user: null });
@@ -25,8 +27,14 @@ module.exports = socket => {
       }
     }
 
+    //handle get chats
+    function handleGetChats(cb) {
+      cb(chats);
+    }
+
     return {
-      handleVerification
+      handleVerification,
+      handleGetChats
     };
   })(socket);
 };

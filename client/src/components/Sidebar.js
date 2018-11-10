@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Search from "./Search/Search";
 import ChatList from "./ChatList/ChatList";
@@ -37,8 +37,8 @@ const Sidebar = props => {
   );
 };
 
-Sidebar.PropTypes = {
-  classes: PropTypes.object.isRequired
+Sidebar.propTypes = {
+  classes: propTypes.object.isRequired
 };
 
 export default withStyles(styles)(Sidebar);

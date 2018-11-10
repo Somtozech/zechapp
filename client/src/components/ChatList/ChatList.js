@@ -1,5 +1,9 @@
 import React from "react";
 import ChatListItem from "./ChatListItem";
+import { connect } from "react-redux";
+import propTypes from "prop-types";
+import { setActiveChat } from "../../actions/chatActions";
+
 const styles = {
   root: {
     overflowY: "scroll",
@@ -7,12 +11,34 @@ const styles = {
   }
 };
 
-const ChatList = () => {
+const ChatList = props => {
   return (
     <div style={styles.root}>
-      <ChatListItem />
+      {props.chats.map(chat => (
+        <ChatListItem
+          {...chat}
+          setActiveChat={props.setActiveChat}
+          key={chat.id}
+        />
+      ))}
     </div>
   );
 };
 
-export default ChatList;
+ChatList.propTypes = {
+  chats: propTypes.array.isRequired
+};
+
+const mapStateToProps = state => {
+  const chats = state.chats.map(chat => ({
+    name: chat.name,
+    active: chat.id === state.activeChatId,
+    id: chat.id
+  }));
+  return { chats };
+};
+
+export default connect(
+  mapStateToProps,
+  { setActiveChat }
+)(ChatList);

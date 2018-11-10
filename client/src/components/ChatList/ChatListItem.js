@@ -1,13 +1,15 @@
 import React from "react";
 import GroupIcon from "../../images/group.png";
-import { Avatar, Typography } from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
   root: {
     height: "70px",
     display: "flex",
-    cursor: "pointer",
+    cursor: "pointer"
+  },
+  active: {
     background: "#EEEEEE"
   },
   chat: {
@@ -38,12 +40,20 @@ const styles = {
 
 const ChatListItem = props => {
   const { classes } = props;
+  const className = props.active
+    ? `${classes.root} ${classes.active}`
+    : `${classes.root}`;
   return (
-    <div className={classes.root}>
+    <div
+      className={className}
+      onClick={() => {
+        props.setActiveChat(props.id);
+      }}
+    >
       <Avatar src={GroupIcon} alt="avatar" className={classes.avatar} />
       <div className={classes.chat}>
-        <h3 className={classes.chatname}>Javascripters</h3>
-        <p className={classes.lastmessage}>+2347036835186: hello world</p>
+        <h3 className={classes.chatname}>{props.name}</h3>
+        {/* <p className={classes.lastmessage}>+2347036835186: hello world</p> */}
       </div>
     </div>
   );

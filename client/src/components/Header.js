@@ -1,6 +1,6 @@
 import React from "react";
 import { AppBar } from "@material-ui/core";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -21,8 +21,8 @@ const Header = props => {
   return <AppBar className={classes.root}>{props.children}</AppBar>;
 };
 
-Header.PropTypes = {
-  classes: PropTypes.object.isRequired
+Header.propTypes = {
+  classes: propTypes.object.isRequired
 };
 
 export default withStyles(styles)(Header);
