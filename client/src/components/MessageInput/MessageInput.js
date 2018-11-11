@@ -1,6 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import propTypes from "prop-types";
+import { connect } from "react-redux";
+import { AddMessage, RecievedMessage } from "../../actions/chatActions";
 
 const styles = {
   root: {
@@ -31,25 +33,61 @@ const styles = {
   }
 };
 
-const MessageInput = props => {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <textarea
-        rows="1"
-        multiline="true"
-        className={classes.textField}
-        placeholder="Type message here"
-      />
-      <button className={classes.button}>
-        <i className="fas fa-paper-plane fa-2x" />
-      </button>
-    </div>
-  );
-};
+class MessageInput extends Component {
+  state = {
+    message: ""
+  };
+
+  componentDidMount() {
+    this.props.RecievedMessage();
+  }
+
+  handleSubmit = e => {
+    const { activeChatId, AddMessage } = this.props;
+    const { message } = this.state;
+    e.preventDefault();
+    if (message) {
+      AddMessage(message.trim(), activeChatId);
+      this.setState({ message: "" });
+    }
+  };
+
+  onChange = e => {
+    this.setState({ message: e.target.value });
+  };
+  render() {
+    const { classes, activeChatId, AddMessage } = this.props;
+    const { message } = this.state;
+    return (
+      <form className={classes.root} onSubmit={this.handleSubmit}>
+        <textarea
+          rows="1"
+          multiline="true"
+          onChange={this.onChange}
+          className={classes.textField}
+          placeholder="Type message here"
+          value={message}
+        />
+        <button className={classes.button} type="submit" disabled={!message}>
+          <i className="fas fa-paper-plane fa-2x" />
+        </button>
+      </form>
+    );
+  }
+}
 
 MessageInput.propTypes = {
-  classes: propTypes.object.isRequired
+  classes: propTypes.object.isRequired,
+  activeChatId: propTypes.string.isRequired,
+  AddMessage: propTypes.func.isRequired
 };
 
-export default withStyles(styles)(MessageInput);
+const mapToStateProps = state => ({
+  activeChatId: state.activeChatId
+});
+
+const MessageInputComponent = withStyles(styles)(MessageInput);
+export default connect(
+  mapToStateProps,
+  { AddMessage, RecievedMessage }
+)(MessageInputComponent);

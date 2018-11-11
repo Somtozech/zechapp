@@ -13,7 +13,7 @@ const createUser = name => ({
 
 /**
  * createChat
- * @prop id{String},
+ * @prop id{String}
  * @prop name{String}
  * @prop messages {Array}
  * @prop users {Array}
@@ -34,7 +34,31 @@ const createChat = ({
   typingUsers: []
 });
 
+/**
+ * createMessage
+ * @prop id{String}
+ * @prop time {Date}
+ * @prop sender {String}
+ * @prop message {String}
+ * @param {String}
+ *      sender {String}
+ *      message {String}
+ */
+const createMessage = ({ sender = "", message = "" } = {}) => ({
+  id: uuidV4(),
+  sender,
+  message,
+  time: new Date()
+});
+
+/**
+ * getTime
+ * @param  {Date}
+ * @return a string in 24hrs format eg '11:43'
+ */
+
 module.exports = {
   createUser,
-  createChat
+  createChat,
+  createMessage
 };

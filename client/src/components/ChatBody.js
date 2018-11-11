@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 
 const styles = theme => ({
   root: {
-    flexGrow: 1,
+    flex: 1,
     display: "flex",
     flexDirection: "column",
     overflow: "hidden",

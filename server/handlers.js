@@ -1,17 +1,17 @@
 const connectedUsers = new Map();
-const { createUser, createChat } = require("./helper");
+const { createUser, createChat, createMessage } = require("./helper");
 const chats = [createChat()];
 
 function checkUserAlreadyExists(user, chatList) {
   return chatList.has(user);
 }
 
-function addUser(user, chatList) {
-  chatList.set(user.name, user);
+function addUser(user, usersList) {
+  usersList.set(user.name, user);
 }
 
-function removeUser(user, chatList) {
-  chatList.delete(user);
+function removeUser(user, usersList) {
+  usersList.delete(user);
 }
 
 module.exports = socket => {
@@ -21,6 +21,8 @@ module.exports = socket => {
       if (checkUserAlreadyExists(user, connectedUsers)) {
         cb({ isUser: true, user: null });
       } else {
+        socket.user = user;
+        socket.room = "room";
         const newUser = createUser(user);
         addUser(newUser, connectedUsers);
         cb({ isUser: false, user: newUser });
@@ -29,12 +31,21 @@ module.exports = socket => {
 
     //handle get chats
     function handleGetChats(cb) {
-      cb(chats);
+      socket.join(socket.room, () => {
+        cb(chats);
+      });
+    }
+
+    function handleSentMessage(message, chatId) {
+      const newMessage = createMessage({ sender: socket.user, message });
+      socket.emit("ADD_MESSAGE", newMessage, chatId);
+      socket.broadcast.to(socket.room).emit("ADD_MESSAGE", newMessage, chatId);
     }
 
     return {
       handleVerification,
-      handleGetChats
+      handleGetChats,
+      handleSentMessage
     };
   })(socket);
 };
