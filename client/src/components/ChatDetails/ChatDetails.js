@@ -25,16 +25,30 @@ const styles = {
     color: "#2b2b2b",
     fontWeight: "500"
   },
-  groupinfo: {}
+  groupinfo: {
+    display: "flex"
+  },
+  name: {
+    margin: "0px 2px",
+    fontSize: 14,
+    fontWeight: 400
+  }
 };
 
 const ChatDetails = props => {
+  const { chat } = props;
   return (
     <div style={styles.root}>
       <Avatar src={img} style={styles.avatar} />
       <div style={styles.details}>
-        <h3 style={styles.chatname}>{props.chat.name}</h3>
-        <p>see group info</p>
+        <h3 style={styles.chatname}>{chat.name}</h3>
+        <p style={styles.groupinfo}>
+          {chat.users.map(user => (
+            <span key={user.id} style={styles.name}>
+              {user.name},
+            </span>
+          ))}
+        </p>
       </div>
     </div>
   );
