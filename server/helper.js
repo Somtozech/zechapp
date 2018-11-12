@@ -31,6 +31,7 @@ const createChat = ({
   name,
   messages,
   users,
+  notification: 0,
   typingUsers: []
 });
 

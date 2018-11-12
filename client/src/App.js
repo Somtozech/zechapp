@@ -45,8 +45,4 @@ class App extends Component {
   }
 }
 
-if (module.hot) {
-  module.hot.accept();
-}
-
 export default App;

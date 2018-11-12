@@ -1,6 +1,6 @@
 import React from "react";
 import GroupIcon from "../../images/group.png";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Badge } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
@@ -30,7 +30,25 @@ const styles = {
     color: "inherit"
   },
   chatname: {
-    fontWeight: "500"
+    fontWeight: "500",
+    flex: 1
+  },
+  chatList: {
+    display: "flex"
+  },
+  notify: {
+    padding: "0 10px",
+    marginLeft: "14px",
+    marginRight: "5px",
+    textAlign: "center",
+    fontSize: 13,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: "50%",
+    fontWeight: 700,
+    color: " #fafafa",
+    background: "#26A69A"
   },
   lastmessage: {
     fontSize: "14px",
@@ -39,7 +57,7 @@ const styles = {
 };
 
 const ChatListItem = props => {
-  const { classes } = props;
+  const { classes, name, notification } = props;
   const className = props.active
     ? `${classes.root} ${classes.active}`
     : `${classes.root}`;
@@ -52,7 +70,12 @@ const ChatListItem = props => {
     >
       <Avatar src={GroupIcon} alt="avatar" className={classes.avatar} />
       <div className={classes.chat}>
-        <h3 className={classes.chatname}>{props.name}</h3>
+        <div className={classes.chatList}>
+          <h3 className={classes.chatname}>{name}</h3>
+          {!!notification && (
+            <span className={classes.notify}>{notification}</span>
+          )}
+        </div>
         {/* <p className={classes.lastmessage}>+2347036835186: hello world</p> */}
       </div>
     </div>

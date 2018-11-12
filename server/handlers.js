@@ -1,6 +1,6 @@
 const connectedUsers = new Map();
 const { createUser, createChat, createMessage } = require("./helper");
-const chats = [createChat()];
+const chats = [createChat(), createChat({ name: "Javascripters" })];
 
 function checkUserAlreadyExists(user, chatList) {
   return chatList.has(user);
@@ -36,6 +36,13 @@ module.exports = socket => {
       });
     }
 
+    //handle user joins a chat
+    function handleUserJoined(user, chatId) {
+      console.log(chatId);
+      socket.emit("USER_JOINED", user, chatId);
+      socket.broadcast.to(socket.room).emit("USER_JOINED", user, chatId);
+    }
+
     function handleSentMessage(message, chatId) {
       const newMessage = createMessage({ sender: socket.user, message });
       socket.emit("ADD_MESSAGE", newMessage, chatId);
@@ -45,7 +52,8 @@ module.exports = socket => {
     return {
       handleVerification,
       handleGetChats,
-      handleSentMessage
+      handleSentMessage,
+      handleUserJoined
     };
   })(socket);
 };

@@ -5,3 +5,6 @@ export const VERIFY_USER = "VERIFY_USER";
 export const GET_CHATS = "GET_CHATS";
 export const SET_ACTIVECHAT = "SET_ACTIVECHAT";
 export const ADD_MESSAGE = "ADD_MESSAGE";
+export const USER_JOINED = "USER_JOINED";
+export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
+export const RESET_NOTIFICATION = "RESET_NOTIFICATION";

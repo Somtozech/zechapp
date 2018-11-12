@@ -1,5 +1,10 @@
 import io from "socket.io-client";
-import { VERIFY_USER, GET_CHATS, ADD_MESSAGE } from "./actions/types";
+import {
+  VERIFY_USER,
+  GET_CHATS,
+  ADD_MESSAGE,
+  USER_JOINED
+} from "./actions/types";
 
 const socketUrl = "http://localhost:3000";
 const options = {
@@ -27,4 +32,12 @@ export const handleReceivedMessage = cb => {
   socket.on(ADD_MESSAGE, (message, chatId) => {
     cb(message, chatId);
   });
+};
+
+export const handleUserJoined = (user, chatId) => {
+  socket.emit(USER_JOINED, user, chatId);
+};
+
+export const handleOnUserJoined = cb => {
+  socket.on(USER_JOINED, cb);
 };

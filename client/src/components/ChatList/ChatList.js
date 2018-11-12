@@ -33,7 +33,8 @@ const mapStateToProps = state => {
   const chats = state.chats.map(chat => ({
     name: chat.name,
     active: chat.id === state.activeChatId,
-    id: chat.id
+    id: chat.id,
+    notification: chat.notification
   }));
   return { chats };
 };

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
-import { AddMessage, RecievedMessage } from "../../actions/chatActions";
+import { AddMessage, UserJoined } from "../../actions/chatActions";
+import { Divider } from "@material-ui/core";
 
 const styles = {
   root: {
@@ -30,6 +31,19 @@ const styles = {
     justifyContent: "center",
     color: " #4b4b4b",
     cursor: "pointer"
+  },
+  join: {
+    background: "#ffffff",
+    height: 60,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  joinText: {
+    textDecoration: "none",
+    fontSize: 17,
+    fontWeight: 500,
+    color: "#42A5F5"
   }
 };
 
@@ -37,10 +51,6 @@ class MessageInput extends Component {
   state = {
     message: ""
   };
-
-  componentDidMount() {
-    this.props.RecievedMessage();
-  }
 
   handleSubmit = e => {
     const { activeChatId, AddMessage } = this.props;
@@ -55,23 +65,47 @@ class MessageInput extends Component {
   onChange = e => {
     this.setState({ message: e.target.value });
   };
+
+  handleJoinChat = e => {
+    e.preventDefault();
+    const { user, UserJoined, activeChatId } = this.props;
+    UserJoined(user, activeChatId);
+  };
   render() {
-    const { classes, activeChatId, AddMessage } = this.props;
+    const { classes, activeChatId, AddMessage, isChatMember } = this.props;
     const { message } = this.state;
     return (
-      <form className={classes.root} onSubmit={this.handleSubmit}>
-        <textarea
-          rows="1"
-          multiline="true"
-          onChange={this.onChange}
-          className={classes.textField}
-          placeholder="Type message here"
-          value={message}
-        />
-        <button className={classes.button} type="submit" disabled={!message}>
-          <i className="fas fa-paper-plane fa-2x" />
-        </button>
-      </form>
+      <React.Fragment>
+        {isChatMember ? (
+          <form className={classes.root} onSubmit={this.handleSubmit}>
+            <textarea
+              rows="1"
+              multiline="true"
+              onChange={this.onChange}
+              className={classes.textField}
+              placeholder="Type message here"
+              value={message}
+            />
+            <button
+              className={classes.button}
+              type="submit"
+              disabled={!message}
+            >
+              <i className="fas fa-paper-plane fa-2x" />
+            </button>
+          </form>
+        ) : (
+          <div className={classes.join}>
+            <a
+              onClick={this.handleJoinChat}
+              className={classes.joinText}
+              href=""
+            >
+              Join Group
+            </a>
+          </div>
+        )}
+      </React.Fragment>
     );
   }
 }
@@ -79,15 +113,24 @@ class MessageInput extends Component {
 MessageInput.propTypes = {
   classes: propTypes.object.isRequired,
   activeChatId: propTypes.string.isRequired,
-  AddMessage: propTypes.func.isRequired
+  AddMessage: propTypes.func.isRequired,
+  isChatMember: propTypes.bool.isRequired,
+  UserJoined: propTypes.func.isRequired,
+  user: propTypes.object.isRequired
 };
 
-const mapToStateProps = state => ({
-  activeChatId: state.activeChatId
-});
+const mapToStateProps = state => {
+  const chat = state.chats.find(chat => chat.id === state.activeChatId);
+  const isChatMember = !!chat.users.find(user => user.name === state.user.name);
+  return {
+    user: state.user,
+    activeChatId: state.activeChatId,
+    isChatMember
+  };
+};
 
 const MessageInputComponent = withStyles(styles)(MessageInput);
 export default connect(
   mapToStateProps,
-  { AddMessage, RecievedMessage }
+  { AddMessage, UserJoined }
 )(MessageInputComponent);
