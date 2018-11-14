@@ -6,7 +6,8 @@ module.exports = function(socket) {
     handleVerification,
     handleGetChats,
     handleSentMessage,
-    handleUserJoined
+    handleUserJoined,
+    handleTyping
   } = handler(socket);
   console.log(socket.id + " connected");
 
@@ -17,4 +18,6 @@ module.exports = function(socket) {
   socket.on("ADD_MESSAGE", handleSentMessage);
 
   socket.on("USER_JOINED", handleUserJoined);
+
+  socket.on("TYPING", handleTyping);
 };

@@ -1,7 +1,8 @@
 import React from "react";
-import Header from "./Header";
 import propTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+
+import Header from "./common/Header";
 import Search from "./Search/Search";
 import ChatList from "./ChatList/ChatList";
 import Profile from "./Profile/Profile";

@@ -2,8 +2,11 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import propTypes from "prop-types";
 import { connect } from "react-redux";
-import { AddMessage, UserJoined } from "../../actions/chatActions";
-import { Divider } from "@material-ui/core";
+import {
+  AddMessage,
+  UserJoined,
+  UpdateTyping
+} from "../../actions/chatActions";
 
 const styles = {
   root: {
@@ -49,7 +52,8 @@ const styles = {
 
 class MessageInput extends Component {
   state = {
-    message: ""
+    message: "",
+    isTyping: false
   };
 
   handleSubmit = e => {
@@ -64,6 +68,7 @@ class MessageInput extends Component {
 
   onChange = e => {
     this.setState({ message: e.target.value });
+    if (e.keyCode === 13) this.handleSubmit();
   };
 
   handleJoinChat = e => {
@@ -71,8 +76,35 @@ class MessageInput extends Component {
     const { user, UserJoined, activeChatId } = this.props;
     UserJoined(user, activeChatId);
   };
+
+  sendTyping = e => {
+    const { isTyping } = this.state;
+    this.lastUpdateTime = Date.now();
+    if (!isTyping) {
+      this.setState({ isTyping: true });
+      this.props.UpdateTyping(true);
+      this.startCheckingTyping();
+    }
+  };
+
+  startCheckingTyping = () => {
+    this.typingInterval = setInterval(() => {
+      if (Date.now() - this.lastUpdateTime > 300) {
+        this.setState({ isTyping: false });
+        this.stopCheckingTyping();
+      }
+    }, 300);
+  };
+
+  stopCheckingTyping = () => {
+    if (this.typingInterval) {
+      clearInterval(this.typingInterval);
+      this.props.UpdateTyping(false);
+    }
+  };
+
   render() {
-    const { classes, activeChatId, AddMessage, isChatMember } = this.props;
+    const { classes, isChatMember } = this.props;
     const { message } = this.state;
     return (
       <React.Fragment>
@@ -85,6 +117,12 @@ class MessageInput extends Component {
               className={classes.textField}
               placeholder="Type message here"
               value={message}
+              onKeyUp={e => {
+                e.keyCode !== 13 && this.sendTyping(e);
+              }}
+              onKeyDown={e => {
+                e.keyCode === 13 && this.handleSubmit(e);
+              }}
             />
             <button
               className={classes.button}
@@ -99,7 +137,7 @@ class MessageInput extends Component {
             <a
               onClick={this.handleJoinChat}
               className={classes.joinText}
-              href=""
+              href="#"
             >
               Join Group
             </a>
@@ -112,11 +150,12 @@ class MessageInput extends Component {
 
 MessageInput.propTypes = {
   classes: propTypes.object.isRequired,
+  user: propTypes.object.isRequired,
   activeChatId: propTypes.string.isRequired,
-  AddMessage: propTypes.func.isRequired,
   isChatMember: propTypes.bool.isRequired,
+  AddMessage: propTypes.func.isRequired,
   UserJoined: propTypes.func.isRequired,
-  user: propTypes.object.isRequired
+  UpdateTyping: propTypes.func.isRequired
 };
 
 const mapToStateProps = state => {
@@ -132,5 +171,5 @@ const mapToStateProps = state => {
 const MessageInputComponent = withStyles(styles)(MessageInput);
 export default connect(
   mapToStateProps,
-  { AddMessage, UserJoined }
+  { AddMessage, UserJoined, UpdateTyping }
 )(MessageInputComponent);

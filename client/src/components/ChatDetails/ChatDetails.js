@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar } from "@material-ui/core";
 import img from "../../images/group.png";
 import { connect } from "react-redux";
+import propTypes from "prop-types";
 
 const styles = {
   root: {
@@ -37,21 +38,24 @@ const styles = {
 
 const ChatDetails = props => {
   const { chat } = props;
+  const user = chat.typingUsers[chat.typingUsers.length - 1];
   return (
     <div style={styles.root}>
       <Avatar src={img} style={styles.avatar} />
       <div style={styles.details}>
         <h3 style={styles.chatname}>{chat.name}</h3>
         <p style={styles.groupinfo}>
-          {chat.users.map(user => (
-            <span key={user.id} style={styles.name}>
-              {user.name},
-            </span>
-          ))}
+          {chat.typingUsers.length > 0 && (
+            <span style={styles.name}>{`${user} is typing...`}</span>
+          )}
         </p>
       </div>
     </div>
   );
+};
+
+ChatDetails.propTypes = {
+  chat: propTypes.object.isRequired
 };
 
 const mapStateToProps = state => {

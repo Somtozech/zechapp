@@ -1,6 +1,6 @@
 import React from "react";
 import GroupIcon from "../../images/group.png";
-import { Avatar, Badge } from "@material-ui/core";
+import { Avatar } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = {

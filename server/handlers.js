@@ -49,11 +49,16 @@ module.exports = socket => {
       socket.broadcast.to(socket.room).emit("ADD_MESSAGE", newMessage, chatId);
     }
 
+    function handleTyping({ user, chatId }, isTyping) {
+      socket.broadcast.emit("TYPING", { user, chatId }, isTyping);
+    }
+
     return {
       handleVerification,
       handleGetChats,
       handleSentMessage,
-      handleUserJoined
+      handleUserJoined,
+      handleTyping
     };
   })(socket);
 };

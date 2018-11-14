@@ -1,4 +1,4 @@
-import { SET_USER, VERIFY_USER, AUTH_FAILED, AUTH_SUCCESSFUL } from "./types";
+import { SET_USER, AUTH_FAILED, AUTH_SUCCESSFUL } from "./types";
 import { handleVerification } from "../socket";
 
 const setUser = user => {

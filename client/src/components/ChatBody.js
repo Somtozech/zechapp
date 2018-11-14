@@ -1,7 +1,8 @@
 import React from "react";
-import Header from "./Header";
 import propTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+
+import Header from "./common/Header";
 import MessageBody from "./MessageBody/MessageBody";
 import MessageInput from "./MessageInput/MessageInput";
 import ChatDetails from "./ChatDetails/ChatDetails";
@@ -15,7 +16,7 @@ const styles = theme => ({
     overflow: "hidden",
     height: "100%",
     borderLeft: "1px solid #EEEEEE",
-    overflow: "hidden",
+    overflowY: "hidden",
     height: "100%",
     [theme.breakpoints.down("xs")]: {
       flex: 0,

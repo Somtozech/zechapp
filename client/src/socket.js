@@ -3,7 +3,8 @@ import {
   VERIFY_USER,
   GET_CHATS,
   ADD_MESSAGE,
-  USER_JOINED
+  USER_JOINED,
+  TYPING
 } from "./actions/types";
 
 const socketUrl = "http://localhost:3000";
@@ -40,4 +41,12 @@ export const handleUserJoined = (user, chatId) => {
 
 export const handleOnUserJoined = cb => {
   socket.on(USER_JOINED, cb);
+};
+
+export const handleTyping = ({ user, chatId }, isTyping) => {
+  socket.emit(TYPING, { user, chatId }, isTyping);
+};
+
+export const handleOnTyping = cb => {
+  socket.on(TYPING, cb);
 };

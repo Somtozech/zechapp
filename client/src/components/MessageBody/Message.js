@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
+import propTypes from "prop-types";
 
 const styles = {
   root: {
@@ -56,6 +57,7 @@ const Message = props => {
   const messageDiv = props.active
     ? `${classes.messageActive}`
     : `${classes.messageDiv}`;
+
   return (
     <div className={root}>
       <div className={messageDiv}>
@@ -69,6 +71,10 @@ const Message = props => {
       </div>
     </div>
   );
+};
+
+Message.propTypes = {
+  classes: propTypes.object.isRequired
 };
 
 export default withStyles(styles)(Message);

@@ -30,6 +30,10 @@ const MessageBody = props => {
   );
 };
 
+MessageBody.propTypes = {
+  messages: propTypes.array
+};
+
 const getTime = date => {
   date = new Date(date);
   return `${date.getHours()}:${("0" + date.getMinutes()).slice(-2)}`;

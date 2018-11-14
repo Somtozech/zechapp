@@ -8,3 +8,5 @@ export const ADD_MESSAGE = "ADD_MESSAGE";
 export const USER_JOINED = "USER_JOINED";
 export const ADD_NOTIFICATION = "ADD_NOTIFICATION";
 export const RESET_NOTIFICATION = "RESET_NOTIFICATION";
+export const TYPING = "TYPING";
+export const STOP_TYPING = "STOP_TYPING";

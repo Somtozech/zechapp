@@ -6,7 +6,8 @@ import { Redirect } from "react-router-dom";
 import {
   getChats,
   OnUserJoined,
-  RecievedMessage
+  RecievedMessage,
+  OnUserTyping
 } from "../actions/chatActions";
 import { connect } from "react-redux";
 import propTypes from "prop-types";
@@ -21,11 +22,19 @@ const styles = {
 
 class MainApp extends Component {
   componentDidMount() {
-    const { user, getChats, OnUserJoined, RecievedMessage } = this.props;
+    const {
+      user,
+      getChats,
+      OnUserJoined,
+      RecievedMessage,
+      OnUserTyping
+    } = this.props;
     if (user.name) {
+      //calls all events received from socket
       getChats();
       OnUserJoined();
       RecievedMessage();
+      OnUserTyping();
     }
   }
 
@@ -46,7 +55,8 @@ MainApp.propTypes = {
   user: propTypes.object.isRequired,
   getChats: propTypes.func.isRequired,
   OnUserJoined: propTypes.func.isRequired,
-  RecievedMessage: propTypes.func.isRequired
+  RecievedMessage: propTypes.func.isRequired,
+  OnUserTyping: propTypes.func.isRequired
 };
 
 const MainAppComponent = withStyles(styles)(MainApp);
@@ -60,6 +70,7 @@ export default connect(
   {
     getChats,
     OnUserJoined,
-    RecievedMessage
+    RecievedMessage,
+    OnUserTyping
   }
 )(MainAppComponent);

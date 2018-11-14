@@ -3,7 +3,9 @@ import {
   handleSentMessage,
   handleReceivedMessage,
   handleUserJoined,
-  handleOnUserJoined
+  handleOnUserJoined,
+  handleTyping,
+  handleOnTyping
 } from "../socket";
 import {
   GET_CHATS,
@@ -11,9 +13,22 @@ import {
   ADD_MESSAGE,
   USER_JOINED,
   ADD_NOTIFICATION,
-  RESET_NOTIFICATION
+  RESET_NOTIFICATION,
+  TYPING,
+  STOP_TYPING
 } from "./types";
 
+//checks if a user is a member of a chat
+function checkIfMember(user, chat) {
+  return !!chat.users.find(u => u.id === user.id);
+}
+
+//find a chat from the chatList with its chatId
+function findChat(chats, chatId) {
+  return chats.find(chat => chat.id === chatId);
+}
+
+//get all available chats
 export const getChats = () => dispatch => {
   handleGetChats(chats => {
     dispatch({
@@ -23,6 +38,7 @@ export const getChats = () => dispatch => {
   });
 };
 
+//makes a chat active
 export const setActiveChat = id => dispatch => {
   dispatch({
     type: SET_ACTIVECHAT,
@@ -34,20 +50,24 @@ export const setActiveChat = id => dispatch => {
   });
 };
 
+//sends the message and chatId to the server
 export const AddMessage = (msg, chatId) => dispatch => {
   handleSentMessage(msg, chatId);
 };
 
+//receives the new message from the server
 export const RecievedMessage = () => (dispatch, getState) => {
   handleReceivedMessage((message, chatId) => {
     const { activeChatId, user, chats } = getState();
+    const chat = findChat(chats, chatId);
+    const isChatMember = checkIfMember(user, chat);
+
     dispatch({
       type: ADD_MESSAGE,
       chatId,
       message
     });
-    const chat = chats.find(chat => chat.id === chatId);
-    const isChatMember = !!chat.users.find(u => u.id === user.id);
+
     if (isChatMember) {
       if (activeChatId === chatId) {
         dispatch({
@@ -64,10 +84,12 @@ export const RecievedMessage = () => (dispatch, getState) => {
   });
 };
 
+//sends the user and the chat the user wants to to the server
 export const UserJoined = (user, chatId) => dispatch => {
   handleUserJoined(user, chatId);
 };
 
+//receives the user and the chat the user joined from the server
 export const OnUserJoined = () => dispatch => {
   handleOnUserJoined((user, chatId) => {
     dispatch({
@@ -75,5 +97,37 @@ export const OnUserJoined = () => dispatch => {
       payload: user,
       chatId
     });
+  });
+};
+
+//emits the typing events to the server
+export const UpdateTyping = isTyping => (dispatch, getState) => {
+  const { user, activeChatId } = getState();
+  handleTyping({ user, chatId: activeChatId }, isTyping);
+};
+
+//receives the typing events from the server
+export const OnUserTyping = () => (dispatch, getState) => {
+  handleOnTyping(({ user: name, chatId }, isTyping) => {
+    const { activeChatId, chats, user } = getState();
+    const chat = findChat(chats, chatId);
+    const isChatMember = checkIfMember(user, chat);
+    if (isChatMember) {
+      if (isTyping) {
+        if (activeChatId === chatId) {
+          dispatch({
+            type: TYPING,
+            chatId: activeChatId,
+            user: name
+          });
+        }
+      } else if (!isTyping) {
+        dispatch({
+          type: STOP_TYPING,
+          chatId: activeChatId,
+          user: name
+        });
+      }
+    }
   });
 };
