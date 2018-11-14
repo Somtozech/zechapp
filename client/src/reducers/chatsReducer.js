@@ -85,23 +85,19 @@ function notifyReducer(state = 0, action) {
 
 function typingReducer(state = [], action) {
   switch (action.type) {
-    case TYPING:
-      {
-        const user = action.user.name;
-        if (!state.includes(user)) {
-          return state.concat(user);
-        }
+    case TYPING: {
+      const user = action.user.name;
+      if (!state.includes(user)) {
+        return state.concat(user);
       }
-      break;
+    }
 
-    case STOP_TYPING:
-      {
-        const user = action.user.name;
-        if (state.includes(user)) {
-          return state.filter(u => u !== user);
-        }
+    case STOP_TYPING: {
+      const user = action.user.name;
+      if (state.includes(user)) {
+        return state.filter(u => u !== user);
       }
-      break;
+    }
 
     default:
       return state;

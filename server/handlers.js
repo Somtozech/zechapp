@@ -1,6 +1,10 @@
 const connectedUsers = new Map();
 const { createUser, createChat, createMessage } = require("./helper");
-const chats = [createChat(), createChat({ name: "Javascripters" })];
+const chats = [
+  createChat(),
+  createChat({ name: "Developers" }),
+  createChat({ name: "Brain Storm " })
+];
 
 function checkUserAlreadyExists(user, chatList) {
   return chatList.has(user);

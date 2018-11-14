@@ -18,13 +18,17 @@ const styles = {
     marginRight: "20px"
   },
   details: {
-    flexGrow: 1,
+    flex: 1,
     height: "100%",
-    color: "#2b2b2b"
+    color: "#2b2b2b",
+    overflow: "hidden"
   },
   chatname: {
     color: "#2b2b2b",
-    fontWeight: "500"
+    fontWeight: "500",
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis"
   },
   groupinfo: {
     display: "flex"

@@ -20,7 +20,10 @@ const styles = {
   name: {
     color: "#4b4b4b",
     fontSize: 17,
-    fontWeight: 500
+    fontWeight: 500,
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis"
   }
 };
 

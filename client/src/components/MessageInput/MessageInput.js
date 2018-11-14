@@ -56,6 +56,27 @@ class MessageInput extends Component {
     isTyping: false
   };
 
+  textInput = React.createRef();
+
+  componentDidUpdate() {
+    const { isChatMember } = this.props;
+    const keys = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+    //focus the message input
+    window.addEventListener("keydown", event => {
+      if (
+        isChatMember &&
+        !(event.ctrlKey || event.metaKey || event.altKey || event.j) &&
+        !keys.includes(event.key)
+      ) {
+        if (this.textInput.current) this.textInput.current.focus();
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.typingInterval);
+  }
+
   handleSubmit = e => {
     const { activeChatId, AddMessage } = this.props;
     const { message } = this.state;
@@ -111,6 +132,7 @@ class MessageInput extends Component {
         {isChatMember ? (
           <form className={classes.root} onSubmit={this.handleSubmit}>
             <textarea
+              ref={this.textInput}
               rows="1"
               multiline="true"
               onChange={this.onChange}

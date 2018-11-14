@@ -7,7 +7,9 @@ import { setActiveChat } from "../../actions/chatActions";
 const styles = {
   root: {
     overflowY: "scroll",
-    height: "100%"
+    overflowX: "hidden",
+    height: "100%",
+    width: "100%"
   }
 };
 

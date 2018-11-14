@@ -7,7 +7,7 @@ import {
   TYPING
 } from "./actions/types";
 
-const socketUrl = "http://localhost:3000";
+const socketUrl = "http://localhost:8080";
 const options = {
   transports: ["polling", "websocket"]
 };

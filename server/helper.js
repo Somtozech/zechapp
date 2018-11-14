@@ -38,17 +38,24 @@ const createChat = ({
 /**
  * createMessage
  * @prop id{String}
+ * @prop type{String}
  * @prop time {Date}
  * @prop sender {String}
  * @prop message {String}
  * @param {String}
  *      sender {String}
  *      message {String}
+ *      type {String}
  */
-const createMessage = ({ sender = "", message = "" } = {}) => ({
+const createMessage = ({
+  sender = "",
+  message = "",
+  type = "message"
+} = {}) => ({
   id: uuidV4(),
   sender,
   message,
+  type,
   time: new Date()
 });
 

@@ -3,7 +3,7 @@ import GroupIcon from "../../images/group.png";
 import { Avatar } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
-const styles = {
+const styles = theme => ({
   root: {
     height: "70px",
     display: "flex",
@@ -13,13 +13,15 @@ const styles = {
     background: "#EEEEEE"
   },
   chat: {
-    flexGrow: 1,
+    flex: 1,
     borderBottom: "1px solid #EEEEEE",
     height: "100%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    color: "#424242"
+    color: "#424242",
+    maxWidth: "calc(100% - 50)",
+    overflow: "hidden"
   },
   avatar: {
     background: "#E0E0E0",
@@ -31,14 +33,19 @@ const styles = {
   },
   chatname: {
     fontWeight: "500",
-    flex: 1
+    // width: "90%",
+    flex: 1,
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    maxWidth: "calc(100% - 30)"
   },
   chatList: {
     display: "flex"
   },
   notify: {
     padding: "0 10px",
-    marginLeft: "14px",
+    marginLeft: "3px",
     marginRight: "5px",
     textAlign: "center",
     fontSize: 13,
@@ -54,7 +61,7 @@ const styles = {
     fontSize: "14px",
     fontWeight: "500"
   }
-};
+});
 
 const ChatListItem = props => {
   const { classes, name, notification } = props;

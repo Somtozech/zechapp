@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import chatbg from "../../images/chatBg.jpg";
 import Message from "./Message";
 import { connect } from "react-redux";
@@ -14,21 +14,38 @@ const styles = {
   },
   messages: {
     marginTop: "100px",
+    marginBottom: "10px",
     width: "90%"
   }
 };
 
-const MessageBody = props => {
-  return (
-    <div style={styles.root}>
-      <div style={styles.messages}>
-        {props.messages.map(message => (
-          <Message {...message} key={message.id} />
-        ))}
+class MessageBody extends Component {
+  scrollBody = React.createRef();
+
+  componentDidMount() {
+    this.scrollDown();
+  }
+
+  componentDidUpdate() {
+    this.scrollDown();
+  }
+
+  scrollDown = () => {
+    this.scrollBody.current.scrollTop = this.scrollBody.current.scrollHeight;
+  };
+  render() {
+    const { messages } = this.props;
+    return (
+      <div ref={this.scrollBody} style={styles.root}>
+        <div style={styles.messages}>
+          {messages.map(message => (
+            <Message {...message} key={message.id} />
+          ))}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 MessageBody.propTypes = {
   messages: propTypes.array
