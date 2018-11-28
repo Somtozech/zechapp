@@ -8,11 +8,14 @@ module.exports = function(socket) {
     handleSentMessage,
     handleUserJoined,
     handleTyping,
-    handleDisconnect
+    handleDisconnect,
+    handleSetUser
   } = handler(socket);
   console.log(socket.id + " connected");
 
   socket.on("VERIFY_USER", handleVerification);
+
+  socket.on("SET_USER", handleSetUser);
 
   socket.on("GET_CHATS", handleGetChats);
 

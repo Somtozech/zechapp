@@ -60,13 +60,21 @@ module.exports = socket => {
       socket.broadcast.emit("DISCONNECT", socket.user);
     }
 
+    function handleSetUser(user) {
+      /**
+       * set socket.user after socket successfully reconnects
+       */
+      socket.user = user;
+    }
+
     return {
       handleVerification,
       handleGetChats,
       handleSentMessage,
       handleUserJoined,
       handleTyping,
-      handleDisconnect
+      handleDisconnect,
+      handleSetUser
     };
   })(socket);
 };

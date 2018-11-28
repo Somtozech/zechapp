@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { connect } from "react-redux";
+import propTypes from "prop-types";
 import {
   UserReconnect,
   UserReconnecting,
-  UserReconnectError
+  UserReconnectError,
+  UserDisconnect
 } from "../../actions/statusActions";
 
 const styles = {
@@ -29,6 +31,7 @@ class ReconnectErrorMessage extends Component {
     UserReconnect();
     UserReconnecting();
     UserReconnectError();
+    UserDisconnect();
   }
   render() {
     const { connectionStatus } = this.props;
@@ -49,11 +52,19 @@ class ReconnectErrorMessage extends Component {
   }
 }
 
+ReconnectErrorMessage.propTypes = {
+  connectionStatus: propTypes.string.isRequired,
+  UserReconnect: propTypes.func.isRequired,
+  UserReconnecting: propTypes.func.isRequired,
+  UserReconnectError: propTypes.func.isRequired,
+  UserDisconnect: propTypes.func.isRequired
+};
+
 const mapStateToProps = state => ({
   connectionStatus: state.connectionStatus
 });
 
 export default connect(
   mapStateToProps,
-  { UserReconnect, UserReconnecting, UserReconnectError }
+  { UserReconnect, UserReconnecting, UserReconnectError, UserDisconnect }
 )(ReconnectErrorMessage);

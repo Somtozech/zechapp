@@ -7,10 +7,7 @@ import {
   handleOnUserJoined,
   handleTyping,
   handleOnTyping,
-  handleDisconnect,
-  handleReconnect,
-  handleReconnectError,
-  handleReconnecting
+  handleDisconnect
 } from "../socket";
 
 import {
@@ -101,7 +98,6 @@ export const OnUserJoined = () => (dispatch, getState) => {
   handleOnUserJoined((user, chatId) => {
     const { user: stateUser, chats } = getState();
     const chat = findChat(chats, chatId);
-    console.log(chat);
     dispatch({
       type: USER_JOINED,
       payload: user,
@@ -173,5 +169,3 @@ export const UserDisconnect = () => (dispatch, getState) => {
     }
   });
 };
-
-export const UserReconnect = () => dispatch => {};

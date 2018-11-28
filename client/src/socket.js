@@ -50,6 +50,7 @@ export const handleOnTyping = cb => {
   socket.on(TYPING, cb);
 };
 
+//handles the user disconnect when the user logs out or refreshes page
 export const handleDisconnect = cb => {
   socket.on(DISCONNECT, cb);
 };
@@ -64,4 +65,13 @@ export const handleReconnect = cb => {
 
 export const handleReconnecting = cb => {
   socket.on("reconnecting", cb);
+};
+
+//handles disconnect when there is server  or  no internet connection
+export const handleUserDisconnect = cb => {
+  socket.on("disconnect", cb);
+};
+
+export const handleSetUser = user => {
+  socket.emit("SET_USER", user);
 };

@@ -1,9 +1,12 @@
-import { RECONNECT, RECONNECT_ERROR, RECONNECTING } from "./types";
+import { RECONNECT, RECONNECT_ERROR, RECONNECTING, DISCONNECT } from "./types";
 import {
   handleReconnect,
   handleReconnectError,
-  handleReconnecting
+  handleReconnecting,
+  handleSetUser,
+  handleUserDisconnect
 } from "../socket";
+import { verifyUser } from "./authActions";
 
 const setReconnect = () => ({
   type: RECONNECT,
@@ -12,7 +15,7 @@ const setReconnect = () => ({
 
 const setReconnecting = attempt => ({
   type: RECONNECTING,
-  payload: `Reconnecting`
+  payload: "Reconnecting"
 });
 
 const setReconnectError = () => ({
@@ -20,8 +23,21 @@ const setReconnectError = () => ({
   payload: "Reconnection failed"
 });
 
-export const UserReconnect = () => dispatch => {
+const setDisconnect = () => ({
+  type: DISCONNECT,
+  payload: "Disconnected"
+});
+
+export const UserReconnect = () => (dispatch, getState) => {
   handleReconnect(() => {
+    const { user } = getState();
+    /**
+     * After the socket disconnect and successfully reconnects the
+     *  socket.user becomes undefined.
+     * @func handleSetUser sends the user to the server to set the
+     * socket.user.
+     */
+    handleSetUser(user);
     dispatch(setReconnect());
   });
 };
@@ -35,5 +51,11 @@ export const UserReconnecting = () => dispatch => {
 export const UserReconnectError = () => dispatch => {
   handleReconnectError(() => {
     dispatch(setReconnectError());
+  });
+};
+
+export const UserDisconnect = () => dispatch => {
+  handleUserDisconnect(() => {
+    dispatch(setDisconnect());
   });
 };
