@@ -6,6 +6,7 @@ import Header from "./common/Header";
 import Search from "./Search/Search";
 import ChatList from "./ChatList/ChatList";
 import Profile from "./Profile/Profile";
+import ReconnectErrorMessage from "./ReconnectErrorMessage/ReconnectErrorMessage";
 
 const styles = theme => ({
   root: {
@@ -34,6 +35,7 @@ const Sidebar = props => {
       </Header>
       <Search />
       <ChatList />
+      <ReconnectErrorMessage />
     </div>
   );
 };

@@ -7,7 +7,8 @@ module.exports = function(socket) {
     handleGetChats,
     handleSentMessage,
     handleUserJoined,
-    handleTyping
+    handleTyping,
+    handleDisconnect
   } = handler(socket);
   console.log(socket.id + " connected");
 
@@ -20,4 +21,6 @@ module.exports = function(socket) {
   socket.on("USER_JOINED", handleUserJoined);
 
   socket.on("TYPING", handleTyping);
+
+  socket.on("disconnect", handleDisconnect);
 };

@@ -7,7 +7,8 @@ import {
   getChats,
   OnUserJoined,
   RecievedMessage,
-  OnUserTyping
+  OnUserTyping,
+  UserDisconnect
 } from "../actions/chatActions";
 import { connect } from "react-redux";
 import propTypes from "prop-types";
@@ -27,7 +28,8 @@ class MainApp extends Component {
       getChats,
       OnUserJoined,
       RecievedMessage,
-      OnUserTyping
+      OnUserTyping,
+      UserDisconnect
     } = this.props;
     if (user.name) {
       //calls all events received from socket
@@ -35,6 +37,7 @@ class MainApp extends Component {
       OnUserJoined();
       RecievedMessage();
       OnUserTyping();
+      UserDisconnect();
     }
   }
 
@@ -56,7 +59,8 @@ MainApp.propTypes = {
   getChats: propTypes.func.isRequired,
   OnUserJoined: propTypes.func.isRequired,
   RecievedMessage: propTypes.func.isRequired,
-  OnUserTyping: propTypes.func.isRequired
+  OnUserTyping: propTypes.func.isRequired,
+  UserDisconnect: propTypes.func.isRequired
 };
 
 const MainAppComponent = withStyles(styles)(MainApp);
@@ -71,6 +75,7 @@ export default connect(
     getChats,
     OnUserJoined,
     RecievedMessage,
-    OnUserTyping
+    OnUserTyping,
+    UserDisconnect
   }
 )(MainAppComponent);

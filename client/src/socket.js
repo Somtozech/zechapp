@@ -4,7 +4,8 @@ import {
   GET_CHATS,
   ADD_MESSAGE,
   USER_JOINED,
-  TYPING
+  TYPING,
+  DISCONNECT
 } from "./actions/types";
 
 const socketUrl = "http://localhost:3000";
@@ -47,4 +48,20 @@ export const handleTyping = ({ user, chatId }, isTyping) => {
 
 export const handleOnTyping = cb => {
   socket.on(TYPING, cb);
+};
+
+export const handleDisconnect = cb => {
+  socket.on(DISCONNECT, cb);
+};
+
+export const handleReconnectError = cb => {
+  socket.on("reconnect_error", cb);
+};
+
+export const handleReconnect = cb => {
+  socket.on("reconnect", cb);
+};
+
+export const handleReconnecting = cb => {
+  socket.on("reconnecting", cb);
 };

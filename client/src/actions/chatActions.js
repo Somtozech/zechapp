@@ -6,7 +6,11 @@ import {
   handleUserJoined,
   handleOnUserJoined,
   handleTyping,
-  handleOnTyping
+  handleOnTyping,
+  handleDisconnect,
+  handleReconnect,
+  handleReconnectError,
+  handleReconnecting
 } from "../socket";
 
 import {
@@ -17,7 +21,8 @@ import {
   ADD_NOTIFICATION,
   RESET_NOTIFICATION,
   TYPING,
-  STOP_TYPING
+  STOP_TYPING,
+  DISCONNECT
 } from "./types";
 
 //checks if a user is a member of a chat
@@ -149,3 +154,24 @@ export const OnUserTyping = () => (dispatch, getState) => {
     }
   });
 };
+
+//user disconnects;
+export const UserDisconnect = () => (dispatch, getState) => {
+  handleDisconnect(user => {
+    const { activeChatId, chats } = getState();
+    const chat = activeChatId && findChat(chats, activeChatId);
+    /**
+     * review section
+     */
+    const isChatMember = checkIfMember(user, chat);
+    if (activeChatId && !!isChatMember) {
+      dispatch({
+        type: ADD_MESSAGE,
+        chatId: activeChatId,
+        message: createLogMessage(`${user.name} left`)
+      });
+    }
+  });
+};
+
+export const UserReconnect = () => dispatch => {};

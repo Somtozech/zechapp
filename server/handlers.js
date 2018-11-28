@@ -25,9 +25,9 @@ module.exports = socket => {
       if (checkUserAlreadyExists(user, connectedUsers)) {
         cb({ isUser: true, user: null });
       } else {
-        socket.user = user;
         socket.room = "room";
         const newUser = createUser(user);
+        socket.user = newUser;
         addUser(newUser, connectedUsers);
         cb({ isUser: false, user: newUser });
       }
@@ -47,7 +47,7 @@ module.exports = socket => {
     }
 
     function handleSentMessage(message, chatId) {
-      const newMessage = createMessage({ sender: socket.user, message });
+      const newMessage = createMessage({ sender: socket.user.name, message });
       socket.emit("ADD_MESSAGE", newMessage, chatId);
       socket.broadcast.to(socket.room).emit("ADD_MESSAGE", newMessage, chatId);
     }
@@ -56,12 +56,17 @@ module.exports = socket => {
       socket.broadcast.emit("TYPING", { user, chatId }, isTyping);
     }
 
+    function handleDisconnect() {
+      socket.broadcast.emit("DISCONNECT", socket.user);
+    }
+
     return {
       handleVerification,
       handleGetChats,
       handleSentMessage,
       handleUserJoined,
-      handleTyping
+      handleTyping,
+      handleDisconnect
     };
   })(socket);
 };
