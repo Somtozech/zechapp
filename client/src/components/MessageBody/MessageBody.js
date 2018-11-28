@@ -22,6 +22,10 @@ const styles = {
 class MessageBody extends Component {
   scrollBody = React.createRef();
 
+  scrollDown() {
+    this.scrollBody.current.scrollTop = this.scrollBody.current.scrollHeight;
+  }
+
   componentDidMount() {
     this.scrollDown();
   }
@@ -29,10 +33,6 @@ class MessageBody extends Component {
   componentDidUpdate() {
     this.scrollDown();
   }
-
-  scrollDown = () => {
-    this.scrollBody.current.scrollTop = this.scrollBody.current.scrollHeight;
-  };
   render() {
     const { messages } = this.props;
     return (

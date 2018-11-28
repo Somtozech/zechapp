@@ -42,7 +42,6 @@ module.exports = socket => {
 
     //handle user joins a chat
     function handleUserJoined(user, chatId) {
-      console.log(chatId);
       socket.emit("USER_JOINED", user, chatId);
       socket.broadcast.to(socket.room).emit("USER_JOINED", user, chatId);
     }

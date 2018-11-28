@@ -22,14 +22,10 @@ const createUser = name => ({
  *      messages {Array}
  *      users {Array}
  */
-const createChat = ({
-  name = "Community",
-  messages = [],
-  users = []
-} = {}) => ({
+const createChat = ({ name = "Community", users = [] } = {}) => ({
   id: uuidV4(),
   name,
-  messages,
+  messages: [createMessage({ message: `Welcome to ${name} chat` })],
   users,
   notification: 0,
   typingUsers: []
@@ -47,15 +43,10 @@ const createChat = ({
  *      message {String}
  *      type {String}
  */
-const createMessage = ({
-  sender = "",
-  message = "",
-  type = "message"
-} = {}) => ({
+const createMessage = ({ sender = "", message = "" } = {}) => ({
   id: uuidV4(),
   sender,
   message,
-  type,
   time: new Date()
 });
 

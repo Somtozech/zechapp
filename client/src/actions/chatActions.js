@@ -1,3 +1,4 @@
+import { createLogMessage } from "./helper";
 import {
   handleGetChats,
   handleSentMessage,
@@ -7,6 +8,7 @@ import {
   handleTyping,
   handleOnTyping
 } from "../socket";
+
 import {
   GET_CHATS,
   SET_ACTIVECHAT,
@@ -90,13 +92,29 @@ export const UserJoined = (user, chatId) => dispatch => {
 };
 
 //receives the user and the chat the user joined from the server
-export const OnUserJoined = () => dispatch => {
+export const OnUserJoined = () => (dispatch, getState) => {
   handleOnUserJoined((user, chatId) => {
+    const { user: stateUser, chats } = getState();
+    const chat = findChat(chats, chatId);
+    console.log(chat);
     dispatch({
       type: USER_JOINED,
       payload: user,
       chatId
     });
+    if (user.id === stateUser.id) {
+      dispatch({
+        type: ADD_MESSAGE,
+        chatId,
+        message: createLogMessage(`you joined ${chat.name}`)
+      });
+    } else {
+      dispatch({
+        type: ADD_MESSAGE,
+        chatId,
+        message: createLogMessage(`${user.name} joined`)
+      });
+    }
   });
 };
 

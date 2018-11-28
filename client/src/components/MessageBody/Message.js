@@ -10,6 +10,9 @@ const styles = theme => ({
   active: {
     justifyContent: "flex-end"
   },
+  log: {
+    justifyContent: "center"
+  },
   messageActive: {
     background: "#69F0AE",
     padding: "10px 13px",
@@ -38,6 +41,19 @@ const styles = theme => ({
       maxWidth: "92%"
     }
   },
+  messageLog: {
+    maxWidth: "80%",
+    overflow: "hidden",
+    display: "flex",
+    margin: 7,
+    borderRadius: 20,
+    background: "#BBDEFB",
+    padding: "5px 13px",
+    textAlign: "center",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "92%"
+    }
+  },
   name: {
     fontWeight: "500",
     color: "#2b2b2b",
@@ -57,6 +73,13 @@ const styles = theme => ({
     fontWeight: 400,
     fontSize: 17
   },
+  userLog: {
+    wordBreak: "break-all",
+    flex: 1,
+    fontSize: "15px",
+    fontWeight: 500,
+    color: "#555"
+  },
   time: {
     fontSize: 12,
     color: "#555",
@@ -68,27 +91,41 @@ const styles = theme => ({
 });
 
 const Message = props => {
+  let message;
   const { classes } = props;
-
-  const root = props.active
-    ? `${classes.root} ${classes.active}`
-    : `${classes.root}`;
-
-  const messageDiv = props.active
-    ? `${classes.messageActive}`
-    : `${classes.messageDiv}`;
-
-  return (
-    <div className={root}>
-      <div className={messageDiv}>
-        <h3 className={classes.name}> {!props.active && props.sender}</h3>
-        <div className={classes.message}>
-          <p className={classes.userMessage}>{props.message}</p>
-          <span className={classes.time}>{props.time}</span>
+  if (!props.sender) {
+    const root = `${classes.root} ${classes.log}`;
+    message = (
+      <div className={root}>
+        <div className={classes.messageLog}>
+          <div className={classes.message}>
+            <p className={classes.userLog}>{props.message}</p>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    const root = props.active
+      ? `${classes.root} ${classes.active}`
+      : `${classes.root}`;
+
+    const messageDiv = props.active
+      ? `${classes.messageActive}`
+      : `${classes.messageDiv}`;
+    message = (
+      <div className={root}>
+        <div className={messageDiv}>
+          <h3 className={classes.name}> {!props.active && props.sender}</h3>
+          <div className={classes.message}>
+            <p className={classes.userMessage}>{props.message}</p>
+            <span className={classes.time}>{props.time}</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return message;
 };
 
 Message.propTypes = {

@@ -7,7 +7,7 @@ import {
   TYPING
 } from "./actions/types";
 
-const socketUrl = "http://localhost:8080";
+const socketUrl = "http://localhost:3000";
 const options = {
   transports: ["polling", "websocket"]
 };
@@ -30,9 +30,7 @@ export const handleSentMessage = (message, chatId) => {
 };
 
 export const handleReceivedMessage = cb => {
-  socket.on(ADD_MESSAGE, (message, chatId) => {
-    cb(message, chatId);
-  });
+  socket.on(ADD_MESSAGE, cb);
 };
 
 export const handleUserJoined = (user, chatId) => {
