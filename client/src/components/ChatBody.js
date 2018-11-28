@@ -19,7 +19,6 @@ const styles = theme => ({
     overflowY: "hidden",
     height: "100%",
     [theme.breakpoints.down("xs")]: {
-      flex: 0,
       width: "100%"
     }
   },

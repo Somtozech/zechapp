@@ -53,7 +53,8 @@ MessageBody.propTypes = {
 
 const getTime = date => {
   date = new Date(date);
-  return `${date.getHours()}:${("0" + date.getMinutes()).slice(-2)}`;
+  const hours = date.getHours();
+  return `${("0" + hours).slice(-2)}:${("0" + date.getMinutes()).slice(-2)}`;
 };
 
 const mapStateToProps = state => {

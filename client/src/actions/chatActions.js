@@ -13,6 +13,7 @@ import {
 import {
   GET_CHATS,
   SET_ACTIVECHAT,
+  RESET_ACTIVECHAT,
   ADD_MESSAGE,
   USER_JOINED,
   ADD_NOTIFICATION,
@@ -51,6 +52,13 @@ export const setActiveChat = id => dispatch => {
   dispatch({
     type: RESET_NOTIFICATION,
     chatId: id
+  });
+};
+
+//reset active chat to null
+export const ResetActiveChat = () => dispatch => {
+  dispatch({
+    type: RESET_ACTIVECHAT
   });
 };
 

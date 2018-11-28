@@ -1,13 +1,16 @@
 import React from "react";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Icon, IconButton } from "@material-ui/core";
+import withWidth from "@material-ui/core/withWidth";
 import img from "../../images/group.png";
 import { connect } from "react-redux";
 import propTypes from "prop-types";
+import { ResetActiveChat } from "../../actions/chatActions";
 
 const styles = {
   root: {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "flex-start"
   },
   avatar: {
     background: "#E0E0E0",
@@ -41,10 +44,23 @@ const styles = {
 };
 
 const ChatDetails = props => {
-  const { chat } = props;
+  const { chat, ResetActiveChat, width } = props;
   const user = chat.typingUsers[chat.typingUsers.length - 1];
   return (
     <div style={styles.root}>
+      {width === "xs" && (
+        <IconButton
+          style={{ cursor: "pointer", margin: "0 5px" }}
+          onClick={e => {
+            ResetActiveChat();
+          }}
+        >
+          <Icon
+            className="fas fa-arrow-left"
+            style={{ color: "#333", fontSize: 20 }}
+          />
+        </IconButton>
+      )}
       <Avatar src={img} style={styles.avatar} />
       <div style={styles.details}>
         <h3 style={styles.chatname}>{chat.name}</h3>
@@ -59,7 +75,9 @@ const ChatDetails = props => {
 };
 
 ChatDetails.propTypes = {
-  chat: propTypes.object.isRequired
+  chat: propTypes.object.isRequired,
+  ResetActiveChat: propTypes.func.isRequired,
+  width: propTypes.string.isRequired
 };
 
 const mapStateToProps = state => {
@@ -69,5 +87,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  null
-)(ChatDetails);
+  { ResetActiveChat }
+)(withWidth()(ChatDetails));

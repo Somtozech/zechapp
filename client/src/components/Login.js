@@ -22,7 +22,11 @@ const styles = theme => ({
     justifyContent: "center"
   },
   inputLabel: {
-    fontSize: "30px"
+    fontSize: "20px",
+    fontWeight: 500,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "17px"
+    }
   },
   input: {
     width: "100%",
