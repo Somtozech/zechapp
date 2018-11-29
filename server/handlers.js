@@ -15,7 +15,7 @@ function addUser(user, usersList) {
 }
 
 function removeUser(user, usersList) {
-  usersList.delete(user);
+  usersList.delete(user.name);
 }
 
 module.exports = socket => {
@@ -43,13 +43,15 @@ module.exports = socket => {
     //handle user joins a chat
     function handleUserJoined(user, chatId) {
       socket.emit("USER_JOINED", user, chatId);
-      socket.broadcast.to(socket.room).emit("USER_JOINED", user, chatId);
+      socket.broadcast.emit("USER_JOINED", user, chatId);
     }
 
     function handleSentMessage(message, chatId) {
-      const newMessage = createMessage({ sender: socket.user.name, message });
-      socket.emit("ADD_MESSAGE", newMessage, chatId);
-      socket.broadcast.to(socket.room).emit("ADD_MESSAGE", newMessage, chatId);
+      if (socket.user && socket.user.name) {
+        const newMessage = createMessage({ sender: socket.user.name, message });
+        socket.emit("ADD_MESSAGE", newMessage, chatId);
+        socket.broadcast.emit("ADD_MESSAGE", newMessage, chatId);
+      }
     }
 
     function handleTyping({ user, chatId }, isTyping) {
@@ -57,6 +59,7 @@ module.exports = socket => {
     }
 
     function handleDisconnect() {
+      removeUser(socket.user, connectedUsers);
       socket.broadcast.emit("DISCONNECT", socket.user);
     }
 

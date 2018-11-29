@@ -21,7 +21,10 @@ const styles = {
     margin: "10px"
   },
   details: {
-    flex: 1,
+    flexGrow: 1,
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
     height: "100%",
     color: "#2b2b2b",
     overflow: "hidden"

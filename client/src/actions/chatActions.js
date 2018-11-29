@@ -24,7 +24,8 @@ import {
 
 //checks if a user is a member of a chat
 function checkIfMember(user, chat) {
-  return !!chat.users.find(u => u.id === user.id);
+  if (user && user.id) return !!chat.users.find(u => u.id === user.id);
+  return false;
 }
 
 //find a chat from the chatList with its chatId
