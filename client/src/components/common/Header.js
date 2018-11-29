@@ -9,7 +9,6 @@ const styles = theme => ({
     height: "60px",
     background: "#F5F5F5",
     boxShadow: "none",
-    padding: "0px 20px",
     position: "relative",
     display: "flex",
     justifyContent: "center"

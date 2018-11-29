@@ -6,7 +6,6 @@ import {
   handleSetUser,
   handleUserDisconnect
 } from "../socket";
-import { verifyUser } from "./authActions";
 
 const setReconnect = () => ({
   type: RECONNECT,

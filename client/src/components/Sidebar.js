@@ -33,9 +33,9 @@ class Sidebar extends Component {
   root = React.createRef();
   hide() {
     const { width, activeChatId } = this.props;
-    if (width == "xs" && activeChatId) {
+    if (width === "xs" && activeChatId) {
       this.root.current.style.width = "0%";
-    } else if (width == "xs" && !activeChatId) {
+    } else if (width === "xs" && !activeChatId) {
       this.root.current.style.width = "100%";
     } else if (width === "sm") {
       this.root.current.style.width = "300px";

@@ -1,6 +1,21 @@
-import React from "react";
+import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
 import propTypes from "prop-types";
+
+const COLORS = [
+  "#e21400",
+  "#91580f",
+  "#f8a700",
+  "#f78b00",
+  "#58dc00",
+  "#287b00",
+  "#a8f07a",
+  "#4ae8c4",
+  "#3b88eb",
+  "#3824aa",
+  "#a700ff",
+  "#d300e7"
+];
 
 const styles = theme => ({
   root: {
@@ -55,7 +70,8 @@ const styles = theme => ({
     }
   },
   name: {
-    fontWeight: "500",
+    fontWeight: "700",
+    fontSize: "15px",
     color: "#2b2b2b",
     overflow: "hidden",
     whiteSpace: "nowrap",
@@ -71,7 +87,7 @@ const styles = theme => ({
     wordBreak: "break-all",
     flex: 1,
     fontWeight: 400,
-    fontSize: 17
+    fontSize: 16
   },
   userLog: {
     wordBreak: "break-all",
@@ -90,43 +106,67 @@ const styles = theme => ({
   }
 });
 
-const Message = props => {
-  let message;
-  const { classes } = props;
-  if (!props.sender) {
-    const root = `${classes.root} ${classes.log}`;
-    message = (
-      <div className={root}>
-        <div className={classes.messageLog}>
-          <div className={classes.message}>
-            <p className={classes.userLog}>{props.message}</p>
-          </div>
-        </div>
-      </div>
-    );
-  } else {
-    const root = props.active
-      ? `${classes.root} ${classes.active}`
-      : `${classes.root}`;
+class Message extends Component {
+  // username = React.createRef();
 
-    const messageDiv = props.active
-      ? `${classes.messageActive}`
-      : `${classes.messageDiv}`;
-    message = (
-      <div className={root}>
-        <div className={messageDiv}>
-          <h3 className={classes.name}> {!props.active && props.sender}</h3>
-          <div className={classes.message}>
-            <p className={classes.userMessage}>{props.message}</p>
-            <span className={classes.time}>{props.time}</span>
+  // componentDidMount() {
+  //   if (this.username) {
+  //     this.username.current.style.color = this.getColor(this.props.sender);
+  //   }
+  // }
+
+  getColor = username => {
+    let hash = 7;
+    for (let i = 0; i < username.length; i++) {
+      hash = username.charCodeAt(i) + (hash << 5) - hash;
+    }
+    let index = Math.abs(hash % COLORS.length);
+    return COLORS[index];
+  };
+  render() {
+    let message;
+    const { classes, sender, message: msg } = this.props;
+    if (!sender) {
+      const root = `${classes.root} ${classes.log}`;
+      message = (
+        <div className={root}>
+          <div className={classes.messageLog}>
+            <div className={classes.message}>
+              <p className={classes.userLog}>{msg}</p>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      const { active, sender, time, message: msg } = this.props;
+      const root = active
+        ? `${classes.root} ${classes.active}`
+        : `${classes.root}`;
+
+      const messageDiv = active
+        ? `${classes.messageActive}`
+        : `${classes.messageDiv}`;
+      message = (
+        <div className={root}>
+          <div className={messageDiv}>
+            <h3
+              style={{ color: `${this.getColor(sender)}` }}
+              className={classes.name}
+            >
+              {!active && sender}
+            </h3>
+            <div className={classes.message}>
+              <p className={classes.userMessage}>{msg}</p>
+              <span className={classes.time}>{time}</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return message;
   }
-
-  return message;
-};
+}
 
 Message.propTypes = {
   classes: propTypes.object.isRequired

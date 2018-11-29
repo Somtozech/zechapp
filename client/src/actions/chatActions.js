@@ -19,8 +19,7 @@ import {
   ADD_NOTIFICATION,
   RESET_NOTIFICATION,
   TYPING,
-  STOP_TYPING,
-  DISCONNECT
+  STOP_TYPING
 } from "./types";
 
 //checks if a user is a member of a chat
@@ -139,7 +138,7 @@ export const OnUserTyping = () => (dispatch, getState) => {
     const { activeChatId, chats, user } = getState();
     const chat = findChat(chats, chatId);
     const isChatMember = checkIfMember(user, chat);
-    if (isChatMember) {
+    if (isChatMember && activeChatId) {
       if (isTyping) {
         if (activeChatId === chatId) {
           dispatch({

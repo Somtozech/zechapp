@@ -55,14 +55,17 @@ export const handleDisconnect = cb => {
   socket.on(DISCONNECT, cb);
 };
 
+//handles  reconnect error after reconnecting attempt
 export const handleReconnectError = cb => {
   socket.on("reconnect_error", cb);
 };
 
+//handles reconnection of socket
 export const handleReconnect = cb => {
   socket.on("reconnect", cb);
 };
 
+//handles reconnecting of socket
 export const handleReconnecting = cb => {
   socket.on("reconnecting", cb);
 };

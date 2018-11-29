@@ -15,7 +15,7 @@ const styles = {
     height: "50px",
     width: "50px",
     color: "inherit",
-    marginRight: "20px"
+    margin: "0px 10px"
   },
   name: {
     color: "#4b4b4b",

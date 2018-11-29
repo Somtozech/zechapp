@@ -8,7 +8,7 @@ import {
   UpdateTyping
 } from "../../actions/chatActions";
 
-const styles = {
+const styles = theme => ({
   root: {
     padding: "10px",
     background: "#f8f2f2",
@@ -28,12 +28,17 @@ const styles = {
   button: {
     background: "transparent",
     border: "0",
-    width: "60px",
+    padding: "0px 5px",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    fontSize: "22px",
     color: " #4b4b4b",
-    cursor: "pointer"
+    cursor: "pointer",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 20,
+      padding: "0px 3px"
+    }
   },
   join: {
     background: "#ffffff",
@@ -48,7 +53,7 @@ const styles = {
     fontWeight: 500,
     color: "#42A5F5"
   }
-};
+});
 
 class MessageInput extends Component {
   state = {
@@ -65,7 +70,7 @@ class MessageInput extends Component {
     window.addEventListener("keydown", event => {
       if (
         isChatMember &&
-        !(event.ctrlKey || event.metaKey || event.altKey || event.j) &&
+        !(event.ctrlKey || event.metaKey || event.altKey) &&
         !keys.includes(event.key)
       ) {
         if (this.textInput.current) this.textInput.current.focus();
@@ -151,7 +156,7 @@ class MessageInput extends Component {
               type="submit"
               disabled={!message}
             >
-              <i className="fas fa-paper-plane fa-2x" />
+              <i className="fas fa-paper-plane" />
             </button>
           </form>
         ) : (

@@ -18,7 +18,7 @@ const styles = {
     height: "50px",
     width: "50px",
     color: "inherit",
-    marginRight: "20px"
+    margin: "10px"
   },
   details: {
     flex: 1,
@@ -50,7 +50,7 @@ const ChatDetails = props => {
     <div style={styles.root}>
       {width === "xs" && (
         <IconButton
-          style={{ cursor: "pointer", margin: "0 5px" }}
+          style={{ cursor: "pointer", margin: "0 0 0 1px" }}
           onClick={e => {
             ResetActiveChat();
           }}
