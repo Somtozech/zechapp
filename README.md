@@ -1,6 +1,11 @@
 # zechapp
 A chat app built with socket.io, react and redux.
 
+##To view live demo 
+```
+https://morning-tor-38193.herokuapp.com/chat
+```
+
 ## To install npm packages:
 
 ```
